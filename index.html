@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <title>Portfolio - Nguyễn Thị Giang</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
     
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -16,27 +17,26 @@
     <style>
         body {
             font-family: 'Montserrat', sans-serif;
-            /* Background mimicking the green campus aerial view */
             background: linear-gradient(rgba(0, 82, 57, 0.7), rgba(0, 114, 188, 0.55)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover fixed;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
         body::-webkit-scrollbar {
             display: none;
         }
 
-        /* Glassmorphism effect for the main card */
+        /* Glassmorphism effect for the cards */
         .glass-card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 2px solid rgba(0, 240, 255, 0.8); /* Cyan glowing border */
+            border: 2px solid rgba(0, 240, 255, 0.8);
             box-shadow: 0 0 30px rgba(0, 240, 255, 0.3), inset 0 0 20px rgba(255,255,255,0.5);
             position: relative;
             overflow: hidden;
         }
 
-        /* Orange glow at the bottom mimicking the image's layout */
         .glass-card::after {
             content: '';
             position: absolute;
@@ -48,10 +48,15 @@
             z-index: -1;
         }
 
-        /* 3D Text Effect for "Giáo Viên" */
+        /* Style riêng cho thẻ CV (Mặt sau) */
+        .glass-card.cv-card::after {
+            background: linear-gradient(to top, rgba(0, 82, 156, 0.9) 0%, rgba(0, 82, 156, 0) 100%);
+        }
+
+        /* 3D Text Effect */
         .title-3d {
             font-family: 'Paytone One', sans-serif;
-            color: #f26522; /* FPT Orange */
+            color: #f26522; 
             text-transform: uppercase;
             letter-spacing: 2px;
             text-shadow: 
@@ -59,26 +64,37 @@
                  2px -2px 0 #fff,
                 -2px  2px 0 #fff,
                  2px  2px 0 #fff,
-                 0px  4px 0 #ffe066, /* Yellowish inner shadow */
-                 0px  6px 0 #d93800, /* Dark orange bottom edge */
+                 0px  4px 0 #ffe066, 
+                 0px  6px 0 #d93800, 
                  0px  8px 10px rgba(0,0,0,0.5);
         }
 
-        /* Ribbon cut-out effect */
+        .title-3d.blue-theme {
+            color: #00529c;
+            text-shadow: 
+                -2px -2px 0 #fff,  
+                 2px -2px 0 #fff,
+                -2px  2px 0 #fff,
+                 2px  2px 0 #fff,
+                 0px  4px 0 #66b2ff, 
+                 0px  6px 0 #00386b, 
+                 0px  8px 10px rgba(0,0,0,0.5);
+        }
+
         .ribbon-shape {
             clip-path: polygon(15px 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0% 50%);
         }
 
-        /* Clean circular frame with border/shadow */
         .clean-circular-frame {
-            border-radius: 9999px; /* Force round */
-            overflow: hidden; /* KEY to clip the black padding of the image */
-            box-shadow: 0 0 0 6px white, 0 0 25px rgba(0,0,0,0.3); /* Clean white border and shadow */
+            border-radius: 9999px;
+            overflow: hidden; 
+            box-shadow: 0 0 0 6px white, 0 0 25px rgba(0,0,0,0.3);
             position: relative;
             z-index: 10;
             margin-left: auto;
             margin-right: auto;
         }
+        
         .clean-circular-frame img {
             width: 100%;
             height: 100%;
@@ -86,120 +102,223 @@
             transform: scale(1.47);
             display: block;
         }
-        /* Subtle float animation */
+
+        /* =========================================
+           THIẾT LẬP CAROUSEL 3D XOAY QUANH TRỤC
+           ========================================= */
+        .carousel-scene {
+            perspective: 1500px;
+            width: 100%;
+            max-width: 430px;
+            height: 750px;
+            position: relative;
+            margin: 0 auto;
+            z-index: 10;
+        }
+
+        .carousel-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        .carousel-item.front {
+            transform: rotateY(0deg);
+        }
+
+        .carousel-item.back {
+            transform: rotateY(180deg);
+        }
+
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
             100% { transform: translateY(0px); }
         }
-        .animate-float {
+        
+        .animate-float-scene {
             animation: float 6s ease-in-out infinite;
         }
     </style>
 </head>
 <body class="flex items-center justify-center p-4 py-10 relative">
 
-    <!-- NÚT ZALO GÓC PHẢI TRÊN CÙNG -->
-    <!-- Nhớ thay số điện thoại của bạn vào phần href -->
-    <a href="https://zalo.me/0778546084" target="_blank" class="fixed top-5 right-5 z-50 flex items-center gap-2 px-4 py-2 rounded-full hover:bg-[#0054cc] hover:-translate-y-1 transition-all duration-300">
-        <img src="zalo.png" width="50">
-    </a>
-    
-    <a href="https://www.facebook.com/giangmi.nguyen.9" target="_blank" class="fixed top-20 right-5 z-50 flex items-center gap-2 px-4 py-2 rounded-full hover:bg-[#0054cc] hover:-translate-y-1 transition-all duration-300">
-        <img src="facebook.png" width="50">
-    </a>
-    <!-- Main Card Container -->
-    <main class="glass-card w-full max-w-[430px] rounded-[2.5rem] p-6 pt-8 flex flex-col items-center animate-float mx-auto transition-transform duration-300 hover:scale-[1.02]">
-        
-        <!-- New circular profile structure -->
-        <div class="relative mb-2">
-            <!-- Bọc ảnh bằng một khung tròn sạch sẽ để che viền đen của ảnh gốc -->
-            <div class="w-48 h-48 clean-circular-frame">
-                <img src="giao_vien.png" 
-                     alt="Nguyễn Thị Giang - Giáo viên Ngữ Văn" 
-                     class="w-full h-full object-cover"
-                >
-            </div>
-        </div>
+    <!-- NÚT ĐIỀU KHIỂN XOAY 3D (MŨI TÊN TRÁI / PHẢI) -->
+    <button id="prevBtn" class="fixed left-2 md:left-10 top-1/2 -translate-y-1/2 z-50 bg-white/20 hover:bg-white/40 p-3 md:p-5 rounded-full backdrop-blur-md border border-white/50 text-white text-2xl transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)] hover:scale-110">
+        &#10094;
+    </button>
+    <button id="nextBtn" class="fixed right-2 md:right-10 top-1/2 -translate-y-1/2 z-50 bg-white/20 hover:bg-white/40 p-3 md:p-5 rounded-full backdrop-blur-md border border-white/50 text-white text-2xl transition-all shadow-[0_0_15px_rgba(0,240,255,0.3)] hover:scale-110">
+        &#10095;
+    </button>
 
-        <!-- 3D Title "Giáo Viên" -->
-        <div class="relative z-20 -mt-6 mb-2">
-            <h1 class="title-3d text-5xl md:text-6xl text-center">Giáo Viên</h1>
-        </div>
-
-        <!-- Name & Subtitle Ribbon -->
-        <div class="relative w-full flex justify-center items-center my-3 z-20 drop-shadow-lg group cursor-default">
-            <!-- Red background for ribbon edges -->
-            <div class="absolute w-[105%] h-[80%] bg-red-600 ribbon-shape z-0 group-hover:scale-105 transition-transform duration-300"></div>
+    <!-- SCENE 3D -->
+    <div class="carousel-scene animate-float-scene" id="sceneWrapper">
+        <div class="carousel-container" id="carousel">
             
-            <!-- White center of the ribbon -->
-            <div class="relative bg-gray-100 w-full py-3 px-4 text-center ribbon-shape z-10 flex flex-col justify-center border-y-2 border-gray-300">
-                <h2 class="text-[#00529c] font-extrabold text-2xl md:text-3xl uppercase tracking-wide">Nguyễn Thị Giang</h2>
-                <div class="w-3/4 h-[1px] bg-[#00529c]/30 mx-auto my-1"></div>
-                <p class="text-[#00529c] font-semibold text-base md:text-lg">Giáo viên Ngữ Văn <span class="mx-2 font-light">|</span> 2004</p>
-            </div>
-        </div>
+            <!-- ==============================
+                 THẺ 1: MẶT TRƯỚC
+                 ============================== -->
+            <main class="glass-card carousel-item front rounded-[2.5rem] p-6 pt-6 flex flex-col items-center justify-between">
+                
+                <div class="relative mb-1">
+                    <div class="w-44 h-44 clean-circular-frame">
+                        <img src="giao_vien.png" 
+                             alt="Nguyễn Thị Giang - Giáo viên Ngữ Văn" 
+                             class="w-full h-full object-cover"
+                        >
+                    </div>
+                </div>
 
-        <!-- Achievements Box -->
-        <div class="w-full mt-4 relative z-20">
-            <!-- Glowing border effect for the orange box -->
-            <div class="absolute inset-0 bg-white/30 rounded-2xl blur-md"></div>
-            
-            <!-- Inner Orange Box with White border -->
-            <div class="relative bg-gradient-to-br from-[#ff8b4d] to-[#e65c00] rounded-2xl p-5 border-2 border-white/80 shadow-[0_5px_15px_rgba(0,0,0,0.2)] hover:shadow-[0_5px_20px_rgba(255,255,255,0.4)] transition-shadow duration-300">
-                <ul class="text-white text-sm md:text-[15px] space-y-2.5 font-medium leading-snug">
-                    <li class="flex items-start">
-                        <span class="mr-2 mt-1 text-white text-xs">●</span>
-                        <span>Tốt nghiệp loại Giỏi ngành Sư phạm Ngữ văn.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 mt-1 text-white text-xs">●</span>
-                        <span>9,8/10 điểm Khóa luận tốt nghiệp.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 mt-1 text-white text-xs">●</span>
-                        <span>Nhiều kỳ đạt danh hiệu Sinh viên Xuất sắc.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 mt-1 text-white text-xs">●</span>
-                        <span>Giải Ba Cuộc thi Nghiệp vụ Sư phạm.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 mt-1 text-white text-xs">●</span>
-                        <span>Có kinh nghiệm thực hành, kiến tập giảng dạy tại các trường THPT, thiết kế bài giảng và học liệu.</span>
-                    </li>
-                    <li class="flex items-start">
-                        <span class="mr-2 mt-1 text-white text-xs">●</span>
-                        <span>Tích cực tham gia và đạt thành tích trong các CLB, đội nhóm học thuật.</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
+                <div class="relative z-20 -mt-5 mb-1">
+                    <h1 class="title-3d text-5xl md:text-6xl text-center">Giáo Viên</h1>
+                </div>
 
-    </main>
+                <div class="relative w-full flex justify-center items-center my-2 z-20 drop-shadow-lg group cursor-default">
+                    <div class="absolute w-[105%] h-[80%] bg-red-600 ribbon-shape z-0 group-hover:scale-105 transition-transform duration-300"></div>
+                    <div class="relative bg-gray-100 w-full py-2.5 px-4 text-center ribbon-shape z-10 flex flex-col justify-center border-y-2 border-gray-300">
+                        <h2 class="text-[#00529c] font-extrabold text-2xl md:text-3xl uppercase tracking-wide">Nguyễn Thị Giang</h2>
+                        <div class="w-3/4 h-[1px] bg-[#00529c]/30 mx-auto my-1"></div>
+                        <p class="text-[#00529c] font-semibold text-sm md:text-base">Giáo viên Ngữ Văn <span class="mx-2 font-light">|</span> 2004</p>
+                    </div>
+                </div>
+
+                <div class="w-full mt-2 relative z-20 flex-1 flex flex-col justify-between">
+                    <div class="absolute inset-0 bg-white/30 rounded-2xl blur-md"></div>
+                    <div class="relative bg-gradient-to-br from-[#ff8b4d] to-[#e65c00] rounded-2xl p-4 border-2 border-white/80 shadow-[0_5px_15px_rgba(0,0,0,0.2)] hover:shadow-[0_5px_20px_rgba(255,255,255,0.4)] transition-shadow duration-300 flex-1 flex flex-col justify-between">
+                        
+                        <!-- Danh sách thành tích -->
+                        <ul class="text-white text-xs md:text-sm space-y-2 font-medium leading-snug">
+                            <li class="flex items-start"><span class="mr-2 mt-0.5 text-white text-[10px]">●</span><span>Tốt nghiệp loại Giỏi ngành Sư phạm Ngữ văn.</span></li>
+                            <li class="flex items-start"><span class="mr-2 mt-0.5 text-white text-[10px]">●</span><span>9,8/10 điểm Khóa luận tốt nghiệp.</span></li>
+                            <li class="flex items-start"><span class="mr-2 mt-0.5 text-white text-[10px]">●</span><span>Nhiều kỳ đạt danh hiệu Sinh viên Xuất sắc.</span></li>
+                            <li class="flex items-start"><span class="mr-2 mt-0.5 text-white text-[10px]">●</span><span>Giải Ba Cuộc thi Nghiệp vụ Sư phạm.</span></li>
+                            <li class="flex items-start"><span class="mr-2 mt-0.5 text-white text-[10px]">●</span><span>Có kinh nghiệm thực hành, kiến tập giảng dạy.</span></li>
+                        </ul>
+
+                        <!-- Phân đoạn Kỹ năng & Thế mạnh -->
+                        <div class="mt-3 pt-3 border-t border-white/30">
+                            <h3 class="text-[#ffe066] font-extrabold text-xs md:text-sm uppercase tracking-wider mb-2 flex items-center gap-1">
+                                <span>✦</span> KỸ NĂNG & THẾ MẠNH
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white/20 border border-white/40 px-3 py-1 rounded-full text-white text-xs md:text-sm font-semibold backdrop-blur-sm">Giảng dạy sáng tạo</span>
+                                <span class="bg-white/20 border border-white/40 px-3 py-1 rounded-full text-white text-xs md:text-sm font-semibold backdrop-blur-sm">Ứng dụng CNTT</span>
+                                <span class="bg-white/20 border border-white/40 px-3 py-1 rounded-full text-white text-xs md:text-sm font-semibold backdrop-blur-sm">Truyền cảm hứng</span>
+                                <span class="bg-white/20 border border-white/40 px-3 py-1 rounded-full text-white text-xs md:text-sm font-semibold backdrop-blur-sm">Tâm lý học sinh</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+
+            <!-- ==============================
+                 THẺ 2: MẶT SAU (Thông tin từ CV)
+                 ============================== -->
+            <main class="glass-card cv-card carousel-item back rounded-[2.5rem] p-6 pt-6 flex flex-col items-center justify-between">
+                
+                <!-- 3D Title "HỒ SƠ" -->
+                <div class="relative z-20 mt-2 mb-2">
+                    <h1 class="title-3d blue-theme text-4xl md:text-5xl text-center">Hồ Sơ</h1>
+                </div>
+
+                <!-- Lời ngỏ -->
+                <div class="w-full bg-black/20 p-4 rounded-xl text-white text-xs md:text-sm text-center my-2 border border-white/20 shadow-inner italic leading-relaxed">
+                    "Tôi cam kết đồng hành và đưa ra lộ trình học tập phù hợp nhất với năng lực của từng học sinh. Bằng phương pháp giảng dạy dễ hiểu và sát thực tế, tôi giúp các em nhanh chóng bù đắp hổng kiến thức và nâng cao điểm số. Quý phụ huynh hoàn toàn có thể yên tâm về sự cải thiện rõ rệt và tinh thần chủ động học tập của con sau mỗi khóa học."
+                </div>
+
+                <!-- Thay thế phần thông tin ở giữa bằng 2 Button Liên Hệ Zalo & Facebook -->
+                <div class="w-full flex items-center justify-center gap-3 my-2 z-20">
+                    <a href="https://zalo.me/0778546084" target="_blank" class="flex-1 flex items-center justify-center gap-2 bg-[#0068ff] hover:bg-[#0054cc] text-white font-bold py-3 px-4 rounded-xl border border-white/40 shadow-md hover:scale-105 transition-all duration-300">
+                        <img src="zalo.png" class="w-7 h-7 object-contain" alt="Zalo">
+                        <span>Zalo</span>
+                    </a>
+                    <a href="https://www.facebook.com/giangmi.nguyen.9" target="_blank" class="flex-1 flex items-center justify-center gap-2 bg-[#1877f2] hover:bg-[#0d65d9] text-white font-bold py-3 px-4 rounded-xl border border-white/40 shadow-md hover:scale-105 transition-all duration-300">
+                        <img src="facebook.png" class="w-7 h-7 object-contain" alt="Facebook">
+                        <span>Facebook</span>
+                    </a>
+                </div>
+
+                <!-- Education & Experience Box -->
+                <div class="w-full relative z-20 mb-2">
+                    <div class="absolute inset-0 bg-white/30 rounded-2xl blur-md"></div>
+                    <div class="relative bg-gradient-to-br from-[#0072bc] to-[#00386b] rounded-2xl p-5 border-2 border-white/80 shadow-[0_5px_15px_rgba(0,0,0,0.2)] hover:shadow-[0_5px_20px_rgba(255,255,255,0.4)] transition-shadow duration-300">
+                        
+                        <div class="mb-3">
+                            <h3 class="text-[#ffe066] font-bold text-base md:text-lg border-b border-white/30 pb-1 uppercase tracking-wider">🎓 Học Vấn</h3>
+                            <ul class="text-white text-sm mt-2 space-y-1 font-medium">
+                                <li>• ĐH Sư phạm - Đại học Huế (2022 - 2026)</li>
+                                <li>• Ngành: Sư phạm Ngữ văn</li>
+                                <li>• Tốt nghiệp: Loại Giỏi (3.41/4.0)</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-[#ffe066] font-bold text-base md:text-lg border-b border-white/30 pb-1 uppercase tracking-wider mt-2">💼 Kinh Nghiệm</h3>
+                            <ul class="text-white text-sm mt-2 space-y-1 font-medium">
+                                <li>• 2024: Kiến tập tại THPT Thuận An</li>
+                                <li>• 2026: Thực tập tại THPT Gia Hội</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+            </main>
+
+        </div>
+    </div>
 
     <script>
-        // Thêm hiệu ứng di chuột 3D nhẹ (Parallax effect) cho card trên desktop
-        const card = document.querySelector('.glass-card');
+        // =====================================
+        // LOGIC XOAY CAROUSEL 3D
+        // =====================================
+        const carousel = document.getElementById('carousel');
+        let currentAngle = 0;
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentAngle -= 180;
+            carousel.style.transform = `rotateY(${currentAngle}deg)`;
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            currentAngle += 180;
+            carousel.style.transform = `rotateY(${currentAngle}deg)`;
+        });
+
+        // =====================================
+        // HIỆU ỨNG DI CHUỘT (PARALLAX EFFECT)
+        // =====================================
+        const scene = document.getElementById('sceneWrapper');
         
         document.addEventListener('mousemove', (e) => {
-            if (window.innerWidth < 768) return; // Chỉ áp dụng cho máy tính
+            if (window.innerWidth < 768) return;
             
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
             
-            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) scale(1.02)`;
+            scene.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) scale(1.02)`;
         });
 
-        // Reset lại vị trí khi chuột rời khỏi màn hình
         document.addEventListener('mouseleave', () => {
-            card.style.transform = `rotateY(0deg) rotateX(0deg) scale(1)`;
-            card.style.transition = 'transform 0.5s ease';
+            scene.style.transform = `rotateY(0deg) rotateX(0deg) scale(1)`;
+            scene.style.transition = 'transform 0.5s ease';
         });
 
-        // Tắt transition khi đang di chuột để hiệu ứng mượt hơn
         document.addEventListener('mouseenter', () => {
-            card.style.transition = 'none';
+            scene.style.transition = 'none';
         });
     </script>
 </body>
