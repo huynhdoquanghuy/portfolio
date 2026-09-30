@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Load Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Paytone+One&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            /* Background mimicking the green campus aerial view */
+            background: linear-gradient(rgba(0, 82, 57, 0.7), rgba(0, 114, 188, 0.55)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover fixed;
+            min-height: 100vh;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Glassmorphism effect for the main card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(0, 240, 255, 0.8); /* Cyan glowing border */
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.3), inset 0 0 20px rgba(255,255,255,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Orange glow at the bottom mimicking the image's layout */
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(to top, rgba(242, 101, 34, 0.9) 0%, rgba(242, 101, 34, 0) 100%);
+            z-index: -1;
+        }
+
+        /* 3D Text Effect for "Giáo Viên" */
+        .title-3d {
+            font-family: 'Paytone One', sans-serif;
+            color: #f26522; /* FPT Orange */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 
+                -2px -2px 0 #fff,  
+                 2px -2px 0 #fff,
+                -2px  2px 0 #fff,
+                 2px  2px 0 #fff,
+                 0px  4px 0 #ffe066, /* Yellowish inner shadow */
+                 0px  6px 0 #d93800, /* Dark orange bottom edge */
+                 0px  8px 10px rgba(0,0,0,0.5);
+        }
+
+        /* Ribbon cut-out effect */
+        .ribbon-shape {
+            clip-path: polygon(15px 0%, calc(100% - 15px) 0%, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0% 50%);
+        }
+
+        /* Clean circular frame with border/shadow */
+        .clean-circular-frame {
+            border-radius: 9999px; /* Force round */
+            overflow: hidden; /* KEY to clip the black padding of the image */
+            box-shadow: 0 0 0 6px white, 0 0 25px rgba(0,0,0,0.3); /* Clean white border and shadow */
+            position: relative;
+            z-index: 10;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .clean-circular-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.47);
+            display: block;
+        }
+        /* Subtle float animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4 py-10 relative">
+
+    <!-- NÚT ZALO GÓC PHẢI TRÊN CÙNG -->
+    <!-- Nhớ thay số điện thoại của bạn vào phần href -->
+    <a href="https://zalo.me/0778546084" target="_blank" class="fixed top-5 right-5 z-50 flex items-center gap-2 px-4 py-2 rounded-full hover:bg-[#0054cc] hover:-translate-y-1 transition-all duration-300">
+        <img src="zalo.png" width="50">
+    </a>
+    
+    <a href="https://www.facebook.com/giangmi.nguyen.9" target="_blank" class="fixed top-20 right-5 z-50 flex items-center gap-2 px-4 py-2 rounded-full hover:bg-[#0054cc] hover:-translate-y-1 transition-all duration-300">
+        <img src="facebook.png" width="50">
+    </a>
+    <!-- Main Card Container -->
+    <main class="glass-card w-full max-w-[430px] rounded-[2.5rem] p-6 pt-8 flex flex-col items-center animate-float mx-auto transition-transform duration-300 hover:scale-[1.02]">
+        
+        <!-- New circular profile structure -->
+        <div class="relative mb-2">
+            <!-- Bọc ảnh bằng một khung tròn sạch sẽ để che viền đen của ảnh gốc -->
+            <div class="w-48 h-48 clean-circular-frame">
+                <img src="giao_vien.png" 
+                     alt="Nguyễn Thị Giang - Giáo viên Ngữ Văn" 
+                     class="w-full h-full object-cover"
+                >
+            </div>
+        </div>
+
+        <!-- 3D Title "Giáo Viên" -->
+        <div class="relative z-20 -mt-6 mb-2">
+            <h1 class="title-3d text-5xl md:text-6xl text-center">Giáo Viên</h1>
+        </div>
+
+        <!-- Name & Subtitle Ribbon -->
+        <div class="relative w-full flex justify-center items-center my-3 z-20 drop-shadow-lg group cursor-default">
+            <!-- Red background for ribbon edges -->
+            <div class="absolute w-[105%] h-[80%] bg-red-600 ribbon-shape z-0 group-hover:scale-105 transition-transform duration-300"></div>
+            
+            <!-- White center of the ribbon -->
+            <div class="relative bg-gray-100 w-full py-3 px-4 text-center ribbon-shape z-10 flex flex-col justify-center border-y-2 border-gray-300">
+                <h2 class="text-[#00529c] font-extrabold text-2xl md:text-3xl uppercase tracking-wide">Nguyễn Thị Giang</h2>
+                <div class="w-3/4 h-[1px] bg-[#00529c]/30 mx-auto my-1"></div>
+                <p class="text-[#00529c] font-semibold text-base md:text-lg">Giáo viên Ngữ Văn <span class="mx-2 font-light">|</span> 2004</p>
+            </div>
+        </div>
+
+        <!-- Achievements Box -->
+        <div class="w-full mt-4 relative z-20">
+            <!-- Glowing border effect for the orange box -->
+            <div class="absolute inset-0 bg-white/30 rounded-2xl blur-md"></div>
+            
+            <!-- Inner Orange Box with White border -->
+            <div class="relative bg-gradient-to-br from-[#ff8b4d] to-[#e65c00] rounded-2xl p-5 border-2 border-white/80 shadow-[0_5px_15px_rgba(0,0,0,0.2)] hover:shadow-[0_5px_20px_rgba(255,255,255,0.4)] transition-shadow duration-300">
+                <ul class="text-white text-sm md:text-[15px] space-y-2.5 font-medium leading-snug">
+                    <li class="flex items-start">
+                        <span class="mr-2 mt-1 text-white text-xs">●</span>
+                        <span>Tốt nghiệp loại Giỏi ngành Sư phạm Ngữ văn.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 mt-1 text-white text-xs">●</span>
+                        <span>9,8/10 điểm Khóa luận tốt nghiệp.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 mt-1 text-white text-xs">●</span>
+                        <span>Nhiều kỳ đạt danh hiệu Sinh viên Xuất sắc.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 mt-1 text-white text-xs">●</span>
+                        <span>Giải Ba Cuộc thi Nghiệp vụ Sư phạm.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 mt-1 text-white text-xs">●</span>
+                        <span>Có kinh nghiệm thực hành, kiến tập giảng dạy tại các trường THPT, thiết kế bài giảng và học liệu.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <span class="mr-2 mt-1 text-white text-xs">●</span>
+                        <span>Tích cực tham gia và đạt thành tích trong các CLB, đội nhóm học thuật.</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Thêm hiệu ứng di chuột 3D nhẹ (Parallax effect) cho card trên desktop
+        const card = document.querySelector('.glass-card');
+        
+        document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth < 768) return; // Chỉ áp dụng cho máy tính
+            
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
+            
+            card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg) scale(1.02)`;
+        });
+
+        // Reset lại vị trí khi chuột rời khỏi màn hình
+        document.addEventListener('mouseleave', () => {
+            card.style.transform = `rotateY(0deg) rotateX(0deg) scale(1)`;
+            card.style.transition = 'transform 0.5s ease';
+        });
+
+        // Tắt transition khi đang di chuột để hiệu ứng mượt hơn
+        document.addEventListener('mouseenter', () => {
+            card.style.transition = 'none';
+        });
+    </script>
+</body>
+</html>
